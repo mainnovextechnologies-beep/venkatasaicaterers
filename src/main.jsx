@@ -1,91 +1,103 @@
-import React, {useState} from 'react';
-import {createRoot} from 'react-dom/client';
-import {BrowserRouter, Routes, Route, NavLink, Link, useNavigate, useLocation} from 'react-router-dom';
-import {Menu as MenuIcon, X, ArrowUpRight, Phone, MessageCircle, ChevronRight, Utensils, Sparkles, Leaf, Heart, ChefHat, CalendarDays, MapPin, Mail, ArrowUp} from 'lucide-react';
-import './style.css';
-
-const logo='/images/logo.png';
-const waNumber='919000000000'; // Replace with the business WhatsApp number, digits only.
-const phoneNumber='+91 90000 00000'; // Replace with the real business phone number.
-const food=(id,w=900)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=85`;
-const images={hero:food('photo-1519167758481-83f550bb49b3'), wedding:food('photo-1519167758481-83f550bb49b3'), buffet:food('photo-1547592180-85f173990554'), rice:food('photo-1569058242253-92a9c755a0ec'), sweets:food('photo-1601050690597-df0568f70950')};
-// Replace photo IDs below with your own licensed business photography whenever available.
-const services=[['Wedding Catering','A beautiful feast for your once-in-a-lifetime celebration.','photo-1519167758481-83f550bb49b3'],['Reception Catering','Elegant service and flavours your guests will remember.','photo-1511795409834-ef04bbd61622'],['Engagement Functions','Thoughtful menus for the beginning of a beautiful journey.','photo-151922ൃതദ'],['Birthday Celebrations','Delicious moments for every age and every gathering.','photo-1467003909585-2f8a72700288'],['Housewarming Ceremonies','Warm hospitality and traditional favourites for your new home.','photo-1600891964599-f61ba0e24092'],['Corporate Events','Reliable catering that brings people together at work.','photo-1515003197210-e0cd7184f8b5'],['Family Functions','Authentic food for the moments shared with family.','photo-1547592180-85f173990554'],['Festival Celebrations','Celebrate traditions with an abundant, festive spread.','photo-1547592180-85f173990554']];
-const menuData={Sweets:['Gulab Jamun','Double Ka Meetha','Bobbatlu','Poornalu','Payasam','Kaju Katli'],Hots:['Mirchi Bajji','Punugulu','Cutlet','Vegetable Samosa','Onion Pakoda'],'Flavoured Rice':['Vegetable Pulao','Veg Biryani','Jeera Rice','Lemon Rice','Pulihora','Basmati Rice'],'Traditional Rice':['Steamed Rice','Curd Rice','Tamarind Rice'], 'Dal Varieties':['Tomato Pappu','Mango Pappu','Palakura Pappu','Mudda Pappu'],'Fry Curries':['Aloo Fry','Beans Fry','Bendakaya Fry','Gobi Fry','Potato Roast'],'Gravy Curries':['Paneer Butter Masala','Mixed Vegetable Curry','Mushroom Curry','Vegetable Kurma','Chole Masala'],Kurma:['Vegetable Kurma','Navratan Kurma'],Raita:['Boondi Raita','Cucumber Raita'],Chutneys:['Coconut Chutney','Tomato Chutney','Peanut Chutney','Ginger Chutney'],'Liquid Items':['Rasam','Sambar','Vegetable Soup'],Papads:['Appadam','Masala Papad'],Curd:['Plain Curd'], 'Welcome Drinks':['Seasonal Welcome Drinks'],'Ice Creams':['Different Ice Cream Flavours'],'Chat Items':['Pani Puri','Dahi Puri','Aloo Tikki Chaat']};
-const packages=[
- {name:'Package 1',price:'₹250',items:[['Sweets',1],['Hots',1],['Flavoured Rice (Basmati)',1],['Kurma',1],['Raita',1],['Rice',1],['Dal Curry',1],['Fry Curries',1],['Gravy Curries',1],['Chutneys',1],['Liquid Items',1],['Papads',1],['Curd',1]]},
- {name:'Package 2',price:'₹280',items:[['Sweets',2],['Hots',1],['Flavoured Rice (Basmati)',1],['Kurma',1],['Raita',1],['Rice',1],['Ghee',1],['Dal Curry',1],['Fry Curries',2],['Gravy Curries',1],['Chutneys',1],['Liquid Items',1],['Papads',1],['Curd',1]]},
- {name:'Package 3',price:'₹310',popular:true,items:[['Sweets',2],['Hots',1],['Flavoured Rice (Basmati)',1],['Kurma',1],['Raita',1],['Ghee',1],['Rice',1],['Dal Curry',1],['Fry Curries',2],['Gravy Curries',1],['Chutneys',1],['Liquid Items',1],['Papads',1],['Curd',1],['Welcome Drink',1],['Ice Cream (2 Varieties)',1],['Killi',1]]},
- {name:'Package 4',price:'₹350 – ₹370',items:[['Sweets',2],['Hots',1],['Flavoured Rice (Basmati)',2],['Kurma',1],['Raita',1],['Rice',1],['Ghee',1],['Dal Curry',1],['Fry Curries',2],['Gravy Curries',2],['Chutneys',2],['Liquid Items',2],['Papads',2],['Curd',1],['Welcome Drink',1],['Ice Cream (3 Varieties)',1],['Killi',1]]},
- {name:'Package 5',price:'₹400 – ₹420',items:[['Sweets',2],['Hots',2],['Flavoured Rice (Basmati)',2],['Kurma',1],['Raita',1],['Rice',1],['Ghee',1],['Dal Curry',1],['Fry Curries',3],['Gravy Curries',2],['Chutneys',2],['Liquid Items',2],['Papads',2],['Curd',1],['Welcome Drink',1],['Ice Cream (3 Varieties)',1],['Killi',1]]}
-];
-function whatsapp(message){return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`}
-
-
-// SEO metadata is updated per route without changing any existing page markup or CSS.
-function SEOManager() {
-  const location = useLocation();
-
-  const pages = {
-    '/': {
-      title: 'Venkatsai Caterers in Indupally | Wedding & Event Catering',
-      description: 'Looking for caterers in Indupally? Venkatsai Caterers offers wedding catering, traditional food, family functions and event catering. Contact us for enquiries.'
+      description:
+        "Venkatsai Caterers in Indupally offers wedding catering, traditional South Indian food, reception catering, birthday parties and family function catering. Explore menus and catering packages.",
+      type: "website"
     },
-    '/menu': {
-      title: 'Catering Menu | Venkatsai Caterers',
-      description: 'Explore traditional food selections and catering menu options from Venkatsai Caterers. Contact us to customise a menu for your event.'
+    "/menu": {
+      title: "Traditional South Indian Catering Menu | Venkatsai Caterers",
+      description:
+        "Explore traditional South Indian catering menu selections from Venkatsai Caterers in Indupally, including sweets, snacks, rice varieties, curries and customised menus.",
+      type: "website"
     },
-    '/packages': {
-      title: 'Catering Packages | Venkatsai Caterers',
-      description: 'Explore Venkatsai Caterers packages for weddings, receptions, engagements and family celebrations. Contact us for package details.'
+    "/packages": {
+      title: "Wedding & Event Catering Packages in Indupally | Venkatsai",
+      description:
+        "Explore Venkatsai Caterers packages for weddings, receptions, engagements and family celebrations in Indupally. Contact us to discuss menu options and pricing.",
+      type: "website"
     },
-    '/about': {
-      title: 'About Venkatsai Caterers | Good Food, Great Memories',
-      description: 'Learn about Venkatsai Caterers and our focus on traditional flavours, quality food and memorable catering experiences.'
+    "/about": {
+      title: "About Venkatsai Caterers | Indupally Catering Services",
+      description:
+        "Learn about Venkatsai Caterers in Indupally and our focus on traditional flavours, carefully prepared food and catering for memorable celebrations.",
+      type: "website"
     },
-    '/contact': {
-      title: 'Contact Venkatsai Caterers | Catering Enquiries',
-      description: 'Contact Venkatsai Caterers for wedding catering, event catering, menu enquiries and catering packages.'
+    "/contact": {
+      title: "Contact Venkatsai Caterers in Indupally | Catering Enquiries",
+      description:
+        "Contact Venkatsai Caterers for wedding catering, reception catering, family functions, event menus and catering package enquiries in Indupally.",
+      type: "website"
     }
   };
 
   React.useEffect(() => {
-    const page = pages[location.pathname] || {
-      title: 'Page Not Found | Venkatsai Caterers',
-      description: 'The requested page could not be found.'
-    };
-    const baseUrl = 'https://venkatasaicaterers.vercel.app';
-    const canonicalUrl = `${baseUrl}${location.pathname === '/' ? '/' : location.pathname}`;
+    const page = pages[location.pathname];
+    const title = page?.title || "Page Not Found | Venkatsai Caterers";
+    const description =
+      page?.description || "The requested page could not be found.";
+    const canonicalUrl = `${baseUrl}${location.pathname}`;
 
-    document.title = page.title;
+    document.title = title;
 
     const setMeta = (selector, attributes, content) => {
       let element = document.head.querySelector(selector);
       if (!element) {
-        element = document.createElement('meta');
-        Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+        element = document.createElement("meta");
+        Object.entries(attributes).forEach(([key, value]) =>
+          element.setAttribute(key, value)
+        );
         document.head.appendChild(element);
       }
-      element.setAttribute('content', content);
+      element.setAttribute("content", content);
     };
 
-    setMeta('meta[name="description"]', { name: 'description' }, page.description);
-    setMeta('meta[property="og:title"]', { property: 'og:title' }, page.title);
-    setMeta('meta[property="og:description"]', { property: 'og:description' }, page.description);
-    setMeta('meta[property="og:url"]', { property: 'og:url' }, canonicalUrl);
-    setMeta('meta[name="twitter:title"]', { name: 'twitter:title' }, page.title);
-    setMeta('meta[name="twitter:description"]', { name: 'twitter:description' }, page.description);
+    setMeta('meta[name="description"]', { name: "description" }, description);
+    setMeta(
+      'meta[name="robots"]',
+      { name: "robots" },
+      page ? "index, follow, max-image-preview:large" : "noindex, follow"
+    );
+    setMeta('meta[property="og:type"]', { property: "og:type" }, "website");
+    setMeta('meta[property="og:site_name"]', { property: "og:site_name" }, "Venkatsai Caterers");
+    setMeta('meta[property="og:title"]', { property: "og:title" }, title);
+    setMeta('meta[property="og:description"]', { property: "og:description" }, description);
+    setMeta('meta[property="og:url"]', { property: "og:url" }, canonicalUrl);
+    setMeta('meta[name="twitter:card"]', { name: "twitter:card" }, "summary_large_image");
+    setMeta('meta[name="twitter:title"]', { name: "twitter:title" }, title);
+    setMeta('meta[name="twitter:description"]', { name: "twitter:description" }, description);
 
     let canonical = document.head.querySelector('link[rel="canonical"]');
     if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.rel = 'canonical';
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
       document.head.appendChild(canonical);
     }
     canonical.href = canonicalUrl;
 
-    // Keep unknown routes out of search results.
-    setMeta('meta[name="robots"]', { name: 'robots' }, pages[location.pathname] ? 'index, follow, max-image-preview:large' : 'noindex, follow');
+    // Business identity only: add verified address, phone, opening hours and
+    // coordinates after replacing the existing placeholder contact details.
+    const businessSchema = {
+      "@context": "https://schema.org",
+      "@type": "Caterer",
+      "@id": `${baseUrl}/#business`,
+      name: "Venkatsai Caterers",
+      url: `${baseUrl}/`,
+      image: `${baseUrl}/images/logo.png`,
+      description:
+        "Venkatsai Caterers provides wedding catering, traditional South Indian food, family function catering and event catering in Indupally.",
+      areaServed: {
+        "@type": "Place",
+        name: "Indupally, Andhra Pradesh, India"
+      },
+      servesCuisine: ["Indian", "South Indian", "Traditional Indian Food"]
+    };
+
+    let schemaScript = document.getElementById("venkatsai-business-schema");
+    if (!schemaScript) {
+      schemaScript = document.createElement("script");
+      schemaScript.id = "venkatsai-business-schema";
+      schemaScript.type = "application/ld+json";
+      document.head.appendChild(schemaScript);
+    }
+    schemaScript.textContent = JSON.stringify(businessSchema);
   }, [location.pathname]);
 
   return null;
