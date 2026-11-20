@@ -1,15 +1,12 @@
-Corrected build notes
-- Removed Facebook and Instagram brand imports from lucide-react. Those brand logos are not guaranteed exports in lucide-react.
-- Replaced them with lightweight text-based social marks so the app does not fail during module loading.
-- Corrected a malformed Unsplash image identifier in the engagement service data.
+Project corrections
+- Added the missing `MenuIcon` import alias (`Menu as MenuIcon`).
+- Added the missing application stylesheet import.
+- Restored missing services, menu, package, phone, WhatsApp and image helper definitions referenced by the React components.
+- Fixed the public logo URL to `/images/logo.png`.
+- Corrected route-aware SEO metadata and normalized trailing slashes.
+- Aligned canonical URLs, Open Graph URLs, structured data, robots.txt and sitemap.xml to the existing Vercel domain.
+- Added Vercel and Apache SPA route fallback configuration.
+- Kept the supplied visual CSS and logo asset unchanged.
 
-Run from this folder:
-1. npm install
-2. npm run dev
-3. Open the local URL shown by Vite (normally http://localhost:5173)
-
-For production:
-1. npm run build
-2. Upload the contents of the generated dist folder to your hosting public_html folder.
-
-Before publishing, replace the placeholder business phone/WhatsApp number, email, address, and sample testimonials in src/main.jsx.
+IMPORTANT:
+The uploaded project did not contain confirmed contact details, real customer reviews, or final menu/package information. The restored values are placeholders/sample content and must be replaced with owner-confirmed information before launch.

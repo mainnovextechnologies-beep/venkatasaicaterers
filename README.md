@@ -1,23 +1,38 @@
 # Venkatsai Caterers Website
 
-A responsive multi-page React + Vite website based on the supplied Venkatsai Caterers brief and official logo.
+Responsive React + Vite website with the supplied logo and existing visual design.
 
 ## Run locally
-1. Install Node.js (LTS).
+1. Install Node.js LTS.
 2. Extract this ZIP.
-3. Open the project folder in VS Code or another code editor.
-4. Run `npm install` then `npm run dev`.
-5. Open the local URL shown by Vite.
+3. Open the project folder in VS Code.
+4. Run `npm install`.
+5. Run `npm run dev` and open the local URL printed by Vite.
 
 ## Build / deploy
-Run `npm run build`. The production website is generated in `dist/`. Upload the contents of `dist/` to a static hosting service or cPanel `public_html` folder. Configure SPA fallback to `index.html` for React Router routes.
+Run `npm run build`. Vite creates the production site in `dist/`.
 
-## Owner edits
-- Official logo: `public/images/logo.png` (kept unchanged from the uploaded asset).
-- Page copy, service cards, menu categories, package inclusions and prices: `src/main.jsx`.
-- Design, responsive behavior and theme colors: `src/style.css` (CSS variables at the top).
-- Replace `waNumber`, `phoneNumber`, email and address placeholders in `src/main.jsx` before going live.
-- Replace sample testimonial text with real reviews and use licensed/owned food photography.
+- Vercel: deploy the project root; `vercel.json` provides React Router fallback.
+- cPanel/Apache: upload the contents of `dist/` into `public_html`. The included `public/.htaccess` is copied to the build output and provides the route fallback.
 
-## Website editor compatibility
-This is an editable React/Vite source project. A visual builder that only imports HTML/CSS may not ingest React components as individually draggable blocks; use the builder's code/project import feature if it supports React/Vite, or edit the source in a code editor. The website itself is not locked or flattened.
+## SEO included
+- Page-specific title and meta description for Home, Menu, Packages, About and Contact.
+- Canonical URLs, robots directives, Open Graph and Twitter metadata updated on route changes.
+- Caterer JSON-LD structured data.
+- `public/robots.txt` points to the XML sitemap.
+- `public/sitemap.xml` lists the five public pages.
+- Vercel domain is consistently set to `https://venkatasaicaterers.vercel.app`.
+
+## Owner details that must be confirmed before publishing
+The uploaded source did not contain verified business contact details or final package/menu data. The missing values were restored with clearly marked placeholders/sample content so the application has the variables its components need.
+
+Edit the top section of `src/main.jsx`:
+- `phoneNumber`
+- `waNumber` (digits only, including country code)
+- `businessEmail`
+- `services`, `menuData` and `packages`
+
+Also replace the placeholder business address, sample testimonial, and sample menu/package inclusions with accurate owner-approved information. Do not publish the sample WhatsApp number or sample package information as confirmed facts.
+
+## Logo
+The supplied logo remains at `public/images/logo.png` and is referenced as `/images/logo.png` (Vite public asset path).
