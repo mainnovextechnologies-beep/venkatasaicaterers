@@ -1,3 +1,4 @@
+    React.useEffect(() => {
     document.title = title;
 
     const setMeta = (selector, attributes, content) => {
