@@ -104,7 +104,7 @@
     }
 
     schemaScript.textContent = JSON.stringify(businessSchema);
-  }, [location.pathname]);
+}, [location.pathname]);
 
   return null;
 }
