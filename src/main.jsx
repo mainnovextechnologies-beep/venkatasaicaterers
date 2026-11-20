@@ -25,7 +25,7 @@ const pages = {
       "Contact Venkatsai Caterers for wedding catering, reception catering, family functions, event menus and catering package enquiries in Indupally."
   }
 };
-setMeta('meta[property="og:type"]', { property: 'og:type' }, 'website');
+
   React.useEffect(() => {
     const page = pages[location.pathname];
     const title = page?.title || "Page Not Found | Venkatsai Caterers";
