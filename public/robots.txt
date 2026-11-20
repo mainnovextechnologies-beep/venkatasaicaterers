@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.example.com/sitemap.xml
+Sitemap: https://venkatasaicaterers.vercel.app/sitemap.xml
