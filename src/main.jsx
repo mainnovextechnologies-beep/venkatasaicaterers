@@ -6,25 +6,25 @@
       title: "Traditional South Indian Catering Menu | Venkatsai Caterers",
       description:
         "Explore traditional South Indian catering menu selections from Venkatsai Caterers in Indupally, including sweets, snacks, rice varieties, curries and customised menus.",
-      type: "website"
+      og:type: "website"
     },
     "/packages": {
       title: "Wedding & Event Catering Packages in Indupally | Venkatsai",
       description:
         "Explore Venkatsai Caterers packages for weddings, receptions, engagements and family celebrations in Indupally. Contact us to discuss menu options and pricing.",
-      type: "website"
+      og:type: "website"
     },
     "/about": {
       title: "About Venkatsai Caterers | Indupally Catering Services",
       description:
         "Learn about Venkatsai Caterers in Indupally and our focus on traditional flavours, carefully prepared food and catering for memorable celebrations.",
-      type: "website"
+      og:type: "website"
     },
     "/contact": {
       title: "Contact Venkatsai Caterers in Indupally | Catering Enquiries",
       description:
         "Contact Venkatsai Caterers for wedding catering, reception catering, family functions, event menus and catering package enquiries in Indupally.",
-      type: "website"
+      og:type: "website"
     }
   };
 
