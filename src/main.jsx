@@ -20,6 +20,77 @@ const packages=[
  {name:'Package 5',price:'₹400 – ₹420',items:[['Sweets',2],['Hots',2],['Flavoured Rice (Basmati)',2],['Kurma',1],['Raita',1],['Rice',1],['Ghee',1],['Dal Curry',1],['Fry Curries',3],['Gravy Curries',2],['Chutneys',2],['Liquid Items',2],['Papads',2],['Curd',1],['Welcome Drink',1],['Ice Cream (3 Varieties)',1],['Killi',1]]}
 ];
 function whatsapp(message){return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`}
+
+
+// SEO metadata is updated per route without changing any existing page markup or CSS.
+function SEOManager() {
+  const location = useLocation();
+
+  const pages = {
+    '/': {
+      title: 'Venkatsai Caterers in Indupally | Wedding & Event Catering',
+      description: 'Looking for caterers in Indupally? Venkatsai Caterers offers wedding catering, traditional food, family functions and event catering. Contact us for enquiries.'
+    },
+    '/menu': {
+      title: 'Catering Menu | Venkatsai Caterers',
+      description: 'Explore traditional food selections and catering menu options from Venkatsai Caterers. Contact us to customise a menu for your event.'
+    },
+    '/packages': {
+      title: 'Catering Packages | Venkatsai Caterers',
+      description: 'Explore Venkatsai Caterers packages for weddings, receptions, engagements and family celebrations. Contact us for package details.'
+    },
+    '/about': {
+      title: 'About Venkatsai Caterers | Good Food, Great Memories',
+      description: 'Learn about Venkatsai Caterers and our focus on traditional flavours, quality food and memorable catering experiences.'
+    },
+    '/contact': {
+      title: 'Contact Venkatsai Caterers | Catering Enquiries',
+      description: 'Contact Venkatsai Caterers for wedding catering, event catering, menu enquiries and catering packages.'
+    }
+  };
+
+  React.useEffect(() => {
+    const page = pages[location.pathname] || {
+      title: 'Page Not Found | Venkatsai Caterers',
+      description: 'The requested page could not be found.'
+    };
+    const baseUrl = 'https://venkatasaicaterers.vercel.app';
+    const canonicalUrl = `${baseUrl}${location.pathname === '/' ? '/' : location.pathname}`;
+
+    document.title = page.title;
+
+    const setMeta = (selector, attributes, content) => {
+      let element = document.head.querySelector(selector);
+      if (!element) {
+        element = document.createElement('meta');
+        Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
+
+    setMeta('meta[name="description"]', { name: 'description' }, page.description);
+    setMeta('meta[property="og:title"]', { property: 'og:title' }, page.title);
+    setMeta('meta[property="og:description"]', { property: 'og:description' }, page.description);
+    setMeta('meta[property="og:url"]', { property: 'og:url' }, canonicalUrl);
+    setMeta('meta[name="twitter:title"]', { name: 'twitter:title' }, page.title);
+    setMeta('meta[name="twitter:description"]', { name: 'twitter:description' }, page.description);
+
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+
+    // Keep unknown routes out of search results.
+    setMeta('meta[name="robots"]', { name: 'robots' }, pages[location.pathname] ? 'index, follow, max-image-preview:large' : 'noindex, follow');
+  }, [location.pathname]);
+
+  return null;
+}
+
 function Header(){const [open,setOpen]=useState(false);const loc=useLocation();React.useEffect(()=>setOpen(false),[loc.pathname]);return <header className="header"><div className="nav-wrap"><Link to="/" className="brand"><img src={logo} alt="Venkatsai Caterers logo"/></Link><button className="mobile-toggle" aria-label="Toggle navigation" onClick={()=>setOpen(!open)}>{open?<X/>:<MenuIcon/>}</button><nav className={open?'nav open':'nav'}>{[['Home','/'],['Menu','/menu'],['Packages','/packages'],['About Us','/about'],['Contact Us','/contact']].map(([t,p])=><NavLink key={p} to={p} end={p==='/'}>{t}</NavLink>)}<Link className="nav-cta" to="/contact">Get a Quote <ArrowUpRight size={16}/></Link></nav></div></header>}
 function Footer(){return <footer className="footer"><div className="footer-main"><div><img className="footer-logo" src={logo} alt="Venkatsai Caterers"/><p>Good Food... Great Memories...</p><p className="muted">Bringing authentic flavours and warm hospitality to your special occasions.</p></div><div><h4>Explore</h4><Link to="/">Home</Link><Link to="/menu">Our Menu</Link><Link to="/packages">Packages</Link><Link to="/about">About Us</Link></div><div><h4>Our Services</h4>{services.slice(0,5).map(s=><a key={s[0]} href="/contact">{s[0]}</a>)}</div><div><h4>Get in touch</h4><p><Phone size={15}/> {phoneNumber}</p><p><Mail size={15}/> hello@venkatsaicaterers.com</p><p><MapPin size={15}/> Business address to be added</p><div className="social"><a href="#instagram" aria-label="Instagram"><span className="social-letter social-instagram">◎</span></a><a href="#facebook" aria-label="Facebook"><span className="social-letter social-facebook">f</span></a></div></div></div><div className="footer-bottom"><span>© 2026 Venkatsai Caterers. All Rights Reserved.</span><span>Made for moments worth celebrating.</span></div></footer>}
 function Floating(){return <><a className="float-wa" href={whatsapp('Hello Venkatsai Caterers, I would like to enquire about catering.')} target="_blank" rel="noreferrer" aria-label="WhatsApp"><MessageCircle/></a><a className="float-call" href={`tel:${phoneNumber.replaceAll(' ','')}`} aria-label="Call"><Phone/></a><button className="backtop" onClick={()=>window.scrollTo({top:0,behavior:'smooth'})} aria-label="Back to top"><ArrowUp/></button></>}
@@ -31,6 +102,6 @@ function PackagesPage(){return <><PageHero eyebrow="Made to match your celebrati
 function About(){return <><PageHero eyebrow="Our philosophy" title="Serving Happiness, One Plate at a Time" desc="Food is an important part of every celebration. We bring delicious flavours, quality food and memorable dining experiences to weddings, family functions and special occasions."/><section className="section about-layout"><div className="about-image"><img src={food('photo-1555939594-58d7cb561ad1')} alt="A deliciously prepared meal"/></div><div className="about-text"><span className="eyebrow">Our story</span><h2>Good food brings<br/><em>people together.</em></h2><p>At Venkatsai Caterers, our goal is to bring delicious flavours, quality food and memorable dining experiences to weddings, family functions and special occasions.</p><p>With attention to taste, presentation and hospitality, we aim to make every event special.</p><div className="about-values"><div><Sparkles/><h3>Our Food Philosophy</h3><p>Celebrate tradition and flavour with menus made for sharing.</p></div><div><Leaf/><h3>Our Quality Commitment</h3><p>Careful preparation, thoughtful ingredients and service with care.</p></div></div></div></section><section className="section gallery"><SectionTitle eyebrow="A taste of the experience" title="Food, Family & Festivity"/><div className="gallery-grid">{['photo-1547592180-85f173990554','photo-1555939594-58d7cb561ad1','photo-1569058242253-92a9c755a0ec','photo-1601050690597-df0568f70950'].map((im,i)=><img key={im} src={food(im)} alt={`Catering gallery image ${i+1}`}/>)}</div></section></>}
 function Contact(){const [form,setForm]=useState({name:'',phone:'',email:'',event:'',date:'',location:'',guests:'',package:'',requirements:''});const [err,setErr]=useState('');const update=e=>setForm({...form,[e.target.name]:e.target.value});const submit=e=>{e.preventDefault();if(!form.name||!form.phone||!form.event||!form.date||!form.guests){setErr('Please complete all required fields.');return}setErr('');const msg=`Catering enquiry\nName: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nEvent: ${form.event}\nDate: ${form.date}\nLocation: ${form.location}\nGuests: ${form.guests}\nPackage: ${form.package}\nRequirements: ${form.requirements}`;window.open(whatsapp(msg),'_blank','noopener,noreferrer')};return <><PageHero eyebrow="We would love to hear from you" title="Let’s Plan Your Celebration" desc="Tell us a little about your event. We’ll help you find the right menu and package."/><section className="section contact-layout"><aside className="contact-aside"><span className="eyebrow">Contact details</span><h2>Let’s talk<br/><em>good food.</em></h2><p>Reach out to discuss your event, menu preferences and guest count.</p><div className="contact-detail"><Phone/><div><small>Call us</small><b>{phoneNumber}</b></div></div><div className="contact-detail"><MessageCircle/><div><small>WhatsApp</small><b>+91 90000 00000</b></div></div><div className="contact-detail"><Mail/><div><small>Email</small><b>hello@venkatsaicaterers.com</b></div></div><div className="contact-detail"><MapPin/><div><small>Location</small><b>Business address to be added</b></div></div><div className="map-placeholder">Google Maps location can be embedded here.</div></aside><form className="enquiry-form" onSubmit={submit}><h2>Send an Enquiry</h2><p>Fields marked * are required.</p><div className="form-grid"><label>Customer name *<input name="name" value={form.name} onChange={update} required placeholder="Your full name"/></label><label>Phone number *<input name="phone" value={form.phone} onChange={update} required type="tel" placeholder="Your phone number"/></label><label>Email address<input name="email" value={form.email} onChange={update} type="email" placeholder="you@example.com"/></label><label>Event type *<select name="event" value={form.event} onChange={update} required><option value="">Select event</option>{['Wedding','Reception','Engagement','Birthday','Housewarming','Corporate Event','Family Function','Festival','Other'].map(x=><option key={x}>{x}</option>)}</select></label><label>Event date *<input name="date" value={form.date} onChange={update} type="date" required/></label><label>Event location<input name="location" value={form.location} onChange={update} placeholder="City / venue"/></label><label>Number of guests *<input name="guests" value={form.guests} onChange={update} type="number" min="1" required placeholder="Expected guests"/></label><label>Interested package<select name="package" value={form.package} onChange={update}><option value="">Choose package</option>{packages.map(p=><option key={p.name}>{p.name} — {p.price}</option>)}<option>Custom package</option></select></label><label className="wide">Additional requirements<textarea name="requirements" value={form.requirements} onChange={update} rows="4" placeholder="Menu preferences, special requests..."/></label></div>{err&&<p className="form-error">{err}</p>}<button className="button gold full" type="submit">Send Enquiry via WhatsApp <MessageCircle/></button><small className="form-note">This form opens WhatsApp with your details. Replace the placeholder contact number before publishing.</small></form></section></>}
 function NotFound(){return <PageHero eyebrow="404" title="This page wandered off" desc="Let's get you back to something delicious."/>}
-function App(){return <BrowserRouter><Header/><main><Routes><Route path="/" element={<Home/>}/><Route path="/menu" element={<MenuPage/>}/><Route path="/packages" element={<PackagesPage/>}/><Route path="/about" element={<About/>}/><Route path="/contact" element={<Contact/>}/><Route path="*" element={<NotFound/>}/></Routes></main><Footer/><Floating/></BrowserRouter>}
+function App(){return <BrowserRouter><SEOManager/><Header/><main><Routes><Route path="/" element={<Home/>}/><Route path="/menu" element={<MenuPage/>}/><Route path="/packages" element={<PackagesPage/>}/><Route path="/about" element={<About/>}/><Route path="/contact" element={<Contact/>}/><Route path="*" element={<NotFound/>}/></Routes></main><Footer/><Floating/></BrowserRouter>}
 
 createRoot(document.getElementById('root')).render(<React.StrictMode><App/></React.StrictMode>);
