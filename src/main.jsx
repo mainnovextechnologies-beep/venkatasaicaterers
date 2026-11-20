@@ -1,6 +1,6 @@
       description:
         "Venkatsai Caterers in Indupally offers wedding catering, traditional South Indian food, reception catering, birthday parties and family function catering. Explore menus and catering packages.",
-      type: "website"
+     og:type: "website"
     },
     "/menu": {
       title: "Traditional South Indian Catering Menu | Venkatsai Caterers",
