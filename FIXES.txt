@@ -1,0 +1,15 @@
+Corrected build notes
+- Removed Facebook and Instagram brand imports from lucide-react. Those brand logos are not guaranteed exports in lucide-react.
+- Replaced them with lightweight text-based social marks so the app does not fail during module loading.
+- Corrected a malformed Unsplash image identifier in the engagement service data.
+
+Run from this folder:
+1. npm install
+2. npm run dev
+3. Open the local URL shown by Vite (normally http://localhost:5173)
+
+For production:
+1. npm run build
+2. Upload the contents of the generated dist folder to your hosting public_html folder.
+
+Before publishing, replace the placeholder business phone/WhatsApp number, email, address, and sample testimonials in src/main.jsx.
