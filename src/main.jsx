@@ -1,44 +1,3 @@
-
-function SEOManager() {
-  const location = useLocation();
-  const baseUrl = "https://venkatasaicaterers.vercel.app";
-
-  const pages = {
-    "/": {
-      title: "Venkatsai Caterers in Indupally | Wedding & Event Catering",
-      description:
-        "Venkatsai Caterers in Indupally offers wedding catering, traditional South Indian food, reception catering, birthday parties and family function catering. Explore menus and catering packages."
-    },
-    "/menu": {
-      title: "Traditional South Indian Catering Menu | Venkatsai Caterers",
-      description:
-        "Explore traditional South Indian catering menu selections from Venkatsai Caterers in Indupally, including sweets, snacks, rice varieties, curries and customised menus."
-    },
-    "/packages": {
-      title: "Wedding & Event Catering Packages in Indupally | Venkatsai",
-      description:
-        "Explore Venkatsai Caterers packages for weddings, receptions, engagements and family celebrations in Indupally. Contact us to discuss menu options and pricing."
-    },
-    "/about": {
-      title: "About Venkatsai Caterers | Indupally Catering Services",
-      description:
-        "Learn about Venkatsai Caterers in Indupally and our focus on traditional flavours, carefully prepared food and catering for memorable celebrations."
-    },
-    "/contact": {
-      title: "Contact Venkatsai Caterers in Indupally | Catering Enquiries",
-      description:
-        "Contact Venkatsai Caterers for wedding catering, reception catering, family functions, event menus and catering package enquiries in Indupally."
-    }
-  };
-
-  React.useEffect(() => {
-    const page = pages[location.pathname];
-    const title = page?.title || "Page Not Found | Venkatsai Caterers";
-    const description =
-      page?.description || "The requested page could not be found.";
-
-    const canonicalUrl = `${baseUrl}${location.pathname}`;
-
     document.title = title;
 
     const setMeta = (selector, attributes, content) => {
@@ -46,11 +5,9 @@ function SEOManager() {
 
       if (!element) {
         element = document.createElement("meta");
-
         Object.entries(attributes).forEach(([key, value]) => {
           element.setAttribute(key, value);
         });
-
         document.head.appendChild(element);
       }
 
@@ -62,64 +19,53 @@ function SEOManager() {
       { name: "description" },
       description
     );
-
     setMeta(
       'meta[name="robots"]',
       { name: "robots" },
       page ? "index, follow, max-image-preview:large" : "noindex, follow"
     );
-
     setMeta(
       'meta[property="og:type"]',
       { property: "og:type" },
       "website"
     );
-
     setMeta(
       'meta[property="og:site_name"]',
       { property: "og:site_name" },
       "Venkatsai Caterers"
     );
-
     setMeta(
       'meta[property="og:title"]',
       { property: "og:title" },
       title
     );
-
     setMeta(
       'meta[property="og:description"]',
       { property: "og:description" },
       description
     );
-
     setMeta(
       'meta[property="og:url"]',
       { property: "og:url" },
       canonicalUrl
     );
-
     setMeta(
       'meta[name="twitter:card"]',
       { name: "twitter:card" },
       "summary_large_image"
     );
-
     setMeta(
       'meta[name="twitter:title"]',
       { name: "twitter:title" },
       title
     );
-
     setMeta(
       'meta[name="twitter:description"]',
       { name: "twitter:description" },
       description
     );
 
-    let canonical = document.head.querySelector(
-      'link[rel="canonical"]'
-    );
+    let canonical = document.head.querySelector('link[rel="canonical"]');
 
     if (!canonical) {
       canonical = document.createElement("link");
@@ -148,93 +94,15 @@ function SEOManager() {
       ]
     };
 
-    let schemaScript = document.getElementById(
-      "venkatsai-business-schema"
-    );
-
-    if (!schemaScript) {
-      schemaScript = document.createElement("script");
-      schemaScript.id = "venkatsai-business-schema";
-      schemaScript.type = "application/ld+json";
-      document.head.appendChild(schemaScript);
-    }
-
-    schemaScript.textContent = JSON.stringify(businessSchema);
-
-  }, [location.pathname]);
-
-  return null;
-}
-
-  React.useEffect(() => {
-    const page = pages[location.pathname];
-    const title = page?.title || "Page Not Found | Venkatsai Caterers";
-    const description =
-      page?.description || "The requested page could not be found.";
-    const canonicalUrl = `${baseUrl}${location.pathname}`;
-
-    document.title = title;
-
-    const setMeta = (selector, attributes, content) => {
-      let element = document.head.querySelector(selector);
-      if (!element) {
-        element = document.createElement("meta");
-        Object.entries(attributes).forEach(([key, value]) =>
-          element.setAttribute(key, value)
-        );
-        document.head.appendChild(element);
-      }
-      element.setAttribute("content", content);
-    };
-
-    setMeta('meta[name="description"]', { name: "description" }, description);
-    setMeta(
-      'meta[name="robots"]',
-      { name: "robots" },
-      page ? "index, follow, max-image-preview:large" : "noindex, follow"
-    );
-    setMeta('meta[property="og:type"]', { property: "og:type" }, "website");
-    setMeta('meta[property="og:site_name"]', { property: "og:site_name" }, "Venkatsai Caterers");
-    setMeta('meta[property="og:title"]', { property: "og:title" }, title);
-    setMeta('meta[property="og:description"]', { property: "og:description" }, description);
-    setMeta('meta[property="og:url"]', { property: "og:url" }, canonicalUrl);
-    setMeta('meta[name="twitter:card"]', { name: "twitter:card" }, "summary_large_image");
-    setMeta('meta[name="twitter:title"]', { name: "twitter:title" }, title);
-    setMeta('meta[name="twitter:description"]', { name: "twitter:description" }, description);
-
-    let canonical = document.head.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-    }
-    canonical.href = canonicalUrl;
-
-    // Business identity only: add verified address, phone, opening hours and
-    // coordinates after replacing the existing placeholder contact details.
-    const businessSchema = {
-      "@context": "https://schema.org",
-      "@type": "Caterer",
-      "@id": `${baseUrl}/#business`,
-      name: "Venkatsai Caterers",
-      url: `${baseUrl}/`,
-      image: `${baseUrl}/images/logo.png`,
-      description:
-        "Venkatsai Caterers provides wedding catering, traditional South Indian food, family function catering and event catering in Indupally.",
-      areaServed: {
-        "@type": "Place",
-        name: "Indupally, Andhra Pradesh, India"
-      },
-      servesCuisine: ["Indian", "South Indian", "Traditional Indian Food"]
-    };
-
     let schemaScript = document.getElementById("venkatsai-business-schema");
+
     if (!schemaScript) {
       schemaScript = document.createElement("script");
       schemaScript.id = "venkatsai-business-schema";
       schemaScript.type = "application/ld+json";
       document.head.appendChild(schemaScript);
     }
+
     schemaScript.textContent = JSON.stringify(businessSchema);
   }, [location.pathname]);
 
